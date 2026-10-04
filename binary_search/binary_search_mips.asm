@@ -11,7 +11,7 @@ binary_search: # $a0 = array size, $a1 = array pointer, $a2 = element to search 
   li $t0, 0         # $t0 = least position the element can be at
   addi $t1, $a0, -1 # $t1 = last position the element can be at
 binary_search_loop:
-  slt $t2, $t1, $t0                       # The search stops once the rightmost element position is less than the leftmos. 
+  slt $t2, $t1, $t0                       # The search stops once the rightmost element position is less than the leftmost. 
   bne $t2, $zero, binary_search_not_found # ^
   
   add $t2, $t0, $t1 # $t2 = position of the element to be compared
