@@ -22,7 +22,7 @@ void rot13(char* str) {
 }
 
 int main() {
-  char str[] = {'H','e','l','l','o',' ','W','o','r','l','d','!','\0'};
+  char str[] = "Hello World!";
   rot13(str);
   printf("%s\n", str);
 }
