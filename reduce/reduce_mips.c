@@ -1,4 +1,4 @@
-typedef int (*int_fn2)(int,int); // int_fn : int x int -> int
+typedef int (*int_fn2)(int,int); // int_fn2 : int x int -> int
 
 int add_int(int x, int y) {
   return x + y;
