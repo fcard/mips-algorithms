@@ -8,22 +8,22 @@ main:
   j fin
   
   
-merge_sort: # $a0 = size, $a1 = array pointer
+merge_sort: # $a0 = array size, $a1 = array pointer
   sll $a0, $a0, 1 # use auxiliary merge sort subroutine that accepts $a0 as size * 2,
                   # to save some sll operations
    
-merge_sort_impl: # $a0 = size * 2, $a1 = array pointer
+merge_sort_impl: # $a0 = array size * 2, $a1 = array pointer
   li $t1, 4                          # check if size < 2 
   slt $t0, $a0, $t1                  # ^
   bne $t0, $zero, merge_sort_finish  # ^ if so, the array is already sorted; return.
 
   addi $sp, $sp, -24 # push arguments and return address to the stack, to prepare for recursive calls
-  sw $ra, 20($sp)    # ^ make space for three extra elements at 8(Ssp), 4($sp) and 0($sp) for later
+  sw $ra, 20($sp)    # ^ make space for three extra values at 8(Ssp), 4($sp) and 0($sp) for later
   sw $a1, 16($sp)    # ^
   sw $a0, 12($sp)    # ^
-
-  andi $t0, $a0, 2  # handle odd number of elements
-  sub $a0, $a0, $t0 # ^ make array size even. If it was odd, the left out element will be included in the other half of the array
+                    
+  andi $t0, $a0, 2  # handle odd number of elements; in the case of an odd array size, dividing the array into two even halves would leave out an element. 
+  sub $a0, $a0, $t0 # ^ make array size even by subtracting (size % 2). If it was odd, the left out element will be included in the other half of the array
   sw $a0, 8($sp)    # ^ push even array size to the stack to be used by merge_sort_join later
 
   sra $a0, $a0, 1     # divide array size by two, to sort half of the array
@@ -69,7 +69,7 @@ merge_sort_join: # see lines 49~52 for descriptions of the arguments
                      # ^ array[i] == $t3 == 0($t1)
                      # ^ array[j] == $t4 == 0($t2)
 
-merge_sort_join_loop_a: # loop a: compare elements between the two halves and add them to the auxiliary array
+merge_sort_join_loop_a: # loop a: compare elements between the two halves and add smaller one to the auxiliary array
                         # ^ until one of the halves is exhausted.
   beq $t1, $t6, merge_sort_join_loop_a_finish # if first half is exhausted, exit loop a
   beq $t2, $t7, merge_sort_join_loop_a_finish # if second half is exhausted, exit loop a
