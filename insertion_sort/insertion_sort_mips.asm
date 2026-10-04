@@ -1,6 +1,5 @@
 .text
 main:
-  # lui $sp, 0x10ff # init sp
   la $a0, array_length
   lw $a0, 0($a0)
   la $a1, array_values
@@ -14,7 +13,7 @@ insertion_sort:
   li $t0, 1
   beq $a0, $t0, insertion_sort_finish # if the array has size 1, it is sorted; return.
   
-  add $t0, $a1, 4   # $t0 = pointer to the key element in the array, start at the second element
+  addi $t0, $a1, 4   # $t0 = pointer to the key element in the array, start at the second element
   sll $t1, $a0, 2
   add $t7, $a1, $t1 # $t7 = pointer to the end of the array
   
