@@ -76,7 +76,7 @@ game.main_loop.bust:
   j game.exit
   
 game.draw_card:
-  random_integer($t0, 1, 10)
+  random_integer($t0, 1, 13)
   bne $t0, 1, game.draw_card.not_ace
   print_string(strings.got_ace)
   print_string(strings.ace_as_one)
@@ -102,6 +102,12 @@ game.draw_card.ace_as_eleven:
   return
 
 game.draw_card.not_ace:
+  li $t1, 10
+  slt $t1, $t1, $t0
+  beq $t1, $zero, game.draw_card.number_card
+  li $t0, 10
+
+game.draw_card.number_card:
   print_string(strings.you_drew)
   println_register($t0)
   lw $t1, player.hand
